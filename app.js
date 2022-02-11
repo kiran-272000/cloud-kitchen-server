@@ -12,6 +12,10 @@ app.get("/api", (req, res) => {
 });
 app.use("/api/kitchen", mealRoutes);
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+});
+
 app.all("*", (req, res) => {
   res.status(404).json({
     status: "failed",
