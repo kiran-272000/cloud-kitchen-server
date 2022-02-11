@@ -20,3 +20,15 @@ exports.addmeals = async (req, res) => {
     }
   );
 };
+
+exports.getAllMeals = async (req, res) => {
+  const meals = await AvailableMeals.find();
+
+  res.status(200).json({
+    status: "Success",
+    results: meals.length,
+    data: {
+      meals,
+    },
+  });
+};
