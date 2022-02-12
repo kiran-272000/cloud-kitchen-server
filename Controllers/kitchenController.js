@@ -1,5 +1,5 @@
 const AvailableMeals = require("../Models/Meals-model");
-
+const CartItem = require("../Models/Cart-model");
 exports.addmeals = async (req, res) => {
   const data = req.body;
   const newMeal = await AvailableMeals.create(
@@ -31,4 +31,30 @@ exports.getAllMeals = async (req, res) => {
       meals,
     },
   });
+};
+
+exports.cart = async (req, res) => {
+  const data = req.body;
+
+  const order = await CartItem.create(
+    {
+      orderItems: {
+        amount: data.orderItems.amount,
+        id: data.orderItems.id,
+      },
+      user: {
+        name: data.user.name,
+        street: data.user.street,
+        postalCode: data.user.postalCode,
+        city: data.user.postalCode,
+      },
+    },
+    function (err, newMeal) {
+      if (err) return res.status(422).send(err);
+      res.status(201).json({
+        status: "success",
+        message: "Order Added to the cart",
+      });
+    }
+  );
 };
