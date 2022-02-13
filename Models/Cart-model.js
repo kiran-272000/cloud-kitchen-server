@@ -1,10 +1,12 @@
 const mangoose = require("mongoose");
 
+const orderSchema = new mangoose.Schema({
+  id: String,
+  amount: Number,
+});
+
 const cartSchema = new mangoose.Schema({
-  orderItems: {
-    amount: Number,
-    id: String,
-  },
+  orderItems: [orderSchema],
   user: {
     name: String,
     street: String,

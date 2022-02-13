@@ -35,26 +35,19 @@ exports.getAllMeals = async (req, res) => {
 
 exports.cart = async (req, res) => {
   const data = req.body;
-
-  const order = await CartItem.create(
-    {
-      orderItems: {
-        amount: data.orderItems.amount,
-        id: data.orderItems.id,
+  try {
+    const order = await CartItem.create(data);
+    res.status(200).json({
+      status: "Success",
+      orders: {
+        order: order,
       },
-      user: {
-        name: data.user.name,
-        street: data.user.street,
-        postalCode: data.user.postalCode,
-        city: data.user.postalCode,
-      },
-    },
-    function (err, newMeal) {
-      if (err) return res.status(422).send(err);
-      res.status(201).json({
-        status: "success",
-        message: "Order Added to the cart",
-      });
-    }
-  );
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({
+      status: "Failed",
+      message: "Internal Server Error",
+    });
+  }
 };
