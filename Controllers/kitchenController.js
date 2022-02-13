@@ -35,6 +35,7 @@ exports.getAllMeals = async (req, res) => {
 
 exports.cart = async (req, res) => {
   const data = req.body;
+  console.log(data);
   try {
     const order = await CartItem.create(data);
     res.status(200).json({
