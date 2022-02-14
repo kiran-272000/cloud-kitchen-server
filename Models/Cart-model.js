@@ -1,7 +1,8 @@
 const mangoose = require("mongoose");
 
 const orderSchema = new mangoose.Schema({
-  id: String,
+  name: String,
+  price: Number,
   amount: Number,
 });
 
