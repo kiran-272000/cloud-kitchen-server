@@ -14,6 +14,7 @@ const cartSchema = new mangoose.Schema({
     postalCode: String,
     city: String,
   },
+  userId: String,
 });
 
 const CartItem = mangoose.model("CartItem", cartSchema);

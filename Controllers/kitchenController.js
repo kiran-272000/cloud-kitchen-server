@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const AvailableMeals = require("../Models/Meals-model");
 const CartItem = require("../Models/Cart-model");
 exports.addmeals = async (req, res) => {
@@ -33,9 +35,20 @@ exports.getAllMeals = async (req, res) => {
   });
 };
 
+exports.userOrder = async (req, res) => {
+  const data = req.body;
+  const decoded = jwt.verify(data.token, process.env.JWT_SECRET);
+  const userId = decoded.id;
+  console.log(userId);
+
+  res.status(200).json({
+    userId: data,
+  });
+};
+
 exports.cart = async (req, res) => {
   const data = req.body;
-  console.log(data);
+  console.log(data.token);
   try {
     const order = await CartItem.create(data);
     res.status(200).json({
