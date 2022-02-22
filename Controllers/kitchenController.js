@@ -48,7 +48,8 @@ exports.userOrder = async (req, res) => {
 
 exports.cart = async (req, res) => {
   const data = req.body;
-  console.log(data.token);
+  const decoded = jwt.verify(data.token, processs.env.JWT_SECRET);
+  console.log(decoded);
   try {
     const order = await CartItem.create(data);
     res.status(200).json({
