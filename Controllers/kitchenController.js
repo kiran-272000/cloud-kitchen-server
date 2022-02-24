@@ -39,19 +39,30 @@ exports.userOrder = async (req, res) => {
   const data = req.body;
   const decoded = jwt.verify(data.token, process.env.JWT_SECRET);
   const userId = decoded.id;
-  console.log(userId);
-
-  res.status(200).json({
-    userId: data,
-  });
+  try {
+    const order = await CartItem.find({ userId: userId });
+    res.status(200).json({
+      order,
+    });
+  } catch (err) {}
 };
 
 exports.cart = async (req, res) => {
   const data = req.body;
-  const decoded = jwt.verify(data.token, processs.env.JWT_SECRET);
-  console.log(decoded);
+  const decoded = jwt.verify(data.token, process.env.JWT_SECRET);
+  // console.log(data);
+  // console.log(decoded.id);
   try {
-    const order = await CartItem.create(data);
+    const order = await CartItem.create({
+      user: {
+        name: data.user.name,
+        street: data.user.street,
+        postalCode: data.user.postalCode,
+        city: data.user.city,
+      },
+      orderItems: data.orderItems,
+      userId: decoded.id,
+    });
     res.status(200).json({
       status: "Success",
       orders: {

@@ -2,6 +2,10 @@ const mangoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const userSchema = mangoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Please provide your name"],
+  },
   email: {
     type: String,
     required: [true, "Please enter your Email"],
@@ -24,6 +28,10 @@ const userSchema = mangoose.Schema({
       },
       message: "Passwords does not match",
     },
+  },
+  wishList: {
+    type: Array,
+    default: [],
   },
 });
 

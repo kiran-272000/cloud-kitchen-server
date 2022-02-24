@@ -11,24 +11,25 @@ const signInToken = (id) =>
 
 exports.signup = async (req, res) => {
   const data = req.body;
-  console.log(data);
 
   const isUserexist = await User.find({ email: data.email });
-  console.log(isUserexist.length);
+  // console.log(isUserexist.length);
   if (!isUserexist.length) {
     try {
       const newUser = await User.create({
+        name: data.name,
         email: data.email,
         password: data.password,
         passwordConfirm: data.passwordConfirm,
       });
 
       const token = signInToken(newUser._id);
-      //const token = 1;
 
       res.status(201).json({
         status: "success",
         token,
+        userName: newUser.name,
+        wishList: newUser.wishList,
       });
     } catch (err) {
       res.status(500).json({
@@ -75,8 +76,10 @@ exports.login = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       token,
-      id: user._id,
-      cart: cartItems,
+      userName: user.name,
+      wishList: user.wishList,
+      // id: user._id,
+      // cart: cartItems,
     });
   } catch (err) {
     res.status(400).json({
