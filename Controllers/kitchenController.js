@@ -51,6 +51,7 @@ exports.userOrder = async (req, res) => {
 exports.cart = async (req, res) => {
   const authHeader = req.headers.authorization;
   const token = authHeader.split(" ")[1];
+  console.log(token);
   const data = req.body;
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   try {

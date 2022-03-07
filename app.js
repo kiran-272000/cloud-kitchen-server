@@ -8,6 +8,7 @@ const userRoutes = require("./Routes/userRoutes");
 const db = require("./db");
 
 app.use(cors());
+
 app.use(express.json());
 
 app.get("/api", (req, res) => {
