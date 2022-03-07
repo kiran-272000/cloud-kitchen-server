@@ -6,6 +6,6 @@ const Router = express.Router();
 Router.route("/addmeals").post(kitchenController.addmeals);
 Router.route("/meals").get(kitchenController.getAllMeals);
 Router.route("/cart").post(kitchenController.cart);
-Router.route("/usercart").post(kitchenController.userOrder);
+Router.route("/usercart").get(kitchenController.userOrder);
 
 module.exports = Router;

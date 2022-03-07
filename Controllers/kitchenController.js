@@ -36,8 +36,9 @@ exports.getAllMeals = async (req, res) => {
 };
 
 exports.userOrder = async (req, res) => {
-  const data = req.body;
-  const decoded = jwt.verify(data.token, process.env.JWT_SECRET);
+  const authHeader = req.headers.authorization;
+  const token = authHeader.split(" ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   const userId = decoded.id;
   try {
     const order = await CartItem.find({ userId: userId });
@@ -48,10 +49,10 @@ exports.userOrder = async (req, res) => {
 };
 
 exports.cart = async (req, res) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader.split(" ")[1];
   const data = req.body;
-  const decoded = jwt.verify(data.token, process.env.JWT_SECRET);
-  // console.log(data);
-  // console.log(decoded.id);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   try {
     const order = await CartItem.create({
       user: {

@@ -7,10 +7,9 @@ exports.wishlist = async (req, res) => {
   const data = req.body;
   const decoded = jwt.verify(data.token, process.env.JWT_SECRET);
 
-  // console.log(decoded.id);
   try {
     const user = await User.findOne({ _id: decoded.id });
-    // console.log(user.wishList);
+
     const found = user.wishList.find((element) => element === data.mealId);
     let updatedWishlist = user.wishList;
     console.log(updatedWishlist);
@@ -33,14 +32,13 @@ exports.wishlist = async (req, res) => {
 };
 
 exports.getWishlist = async (req, res) => {
-  const data = req.body;
-  const decoded = jwt.verify(data.token, process.env.JWT_SECRET);
+  const authHeader = req.headers.authorization;
+  const token = authHeader.split(" ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   try {
     const user = await User.findOne({ _id: decoded.id });
     const wishListArray = user.wishList;
-
-    console.log(wishListArray);
 
     res.status(200).send({
       wishListArray,
